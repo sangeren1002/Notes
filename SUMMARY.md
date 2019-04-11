@@ -6,7 +6,7 @@
 
   * [1.1 cubemx\_usart教程](/cubemx/cubemx_usart.md)
 
-  * [1.2 cubemx\_can教程](/cubemx/cubemx_can.md)
+  * [1.2 cubemx\_can教程](/cubemx/cubemx_can1.md)
 
 
 
