@@ -7,7 +7,7 @@
   * [1.1 cubemx\_usart教程](/cubemx/cubemx_usart.md)
 
   * [1.2 cubemx\_can教程](/cubemx/cubemx_can1.md)
-  * [1.3 cubemx\ I2C教程](/cubemx/cubemx_I2C.md)
+  * [1.3 cubemx\_I2C教程](/cubemx/cubemx_I2C.md)
 
   [工具集](/tools/README.md)
 
