@@ -8,8 +8,6 @@
 
   * [1.2 cubemx\_can教程](/cubemx/cubemx_can1.md)
   * [1.3 cubemx\_I2C教程](/cubemx/cubemx_I2C.md)
-
+* [开发日志记录](/logs/README.md)
+  * [悬挂底盘](/logs/悬挂底盘.md)
   [工具集](/tools/README.md)
-
-
-
