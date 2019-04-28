@@ -9,8 +9,7 @@
 
 ## 2019.04.28 logs by jishubao
  1. Q1：cubemx生成的悬挂巡检底盘代码存在编码器数据上传更新缓慢，多帧为同一数值；
->定位到Q1问题的原因是在函数```canDispatch();```的报文设置闹钟函数SetAlarm里有问题
-1. 可能原因是函数```proceedNODE_GUARD(d,m);```里设置心跳闹钟```SetAlarm(d, index, &ConsumerHeartbeatAlarm, MS_TO_TIMEVAL(time), 0);```里的时间有问题；
-2. 可能原因是函数```proceedPDO(d,m);```里设置心跳闹钟```SetAlarm (d, numPdo, d->RxPDO_EventTimers_Handler,MS_TO_TIMEVAL (EventTimerDuration), 0);```里的时间有问题；
-3. 主要看canopen的定时器功能是否导致了设备网络管理认为设备反复超过最大时间一直掉线上线切换导致报文数据上传不连续
-```
+>定位到Q1问题的原因是在函数```canDispatch();```的报文设置闹钟函数SetAlarm里有问题；
+>1. 可能原因是函数```proceedNODE_GUARD(d,m);```里设置心跳闹钟```SetAlarm(d, index, >&ConsumerHeartbeatAlarm, MS_TO_TIMEVAL(time), 0);```里的时间有问题；
+>2. 可能原因是函数```proceedPDO(d,m);```里设置心跳闹钟```SetAlarm (d, numPdo, d-> >RxPDO_EventTimers_Handler,MS_TO_TIMEVAL (EventTimerDuration), 0);```里的时间有问题；
+>3. 主要看canopen的定时器功能是否导致了设备网络管理认为设备反复超过最大时间一直掉线上线切换导致报文数据上传不连续。
