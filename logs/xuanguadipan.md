@@ -6,3 +6,10 @@
 5. 云台控制开关未接入MCU，未测试是否能够正确控制云台。
 6. DB9的232串口接口在上下位机数据传输不了，由于室外导航进度急需测试暂时使用串口转usb替代上下位机通讯接口；还需要具体确认具体原因。
 >注意：电路设计时DB9的接口发送与接收相反，在寻找原因时注意；另外电路板改版需要修正此问题
+
+## 2019.04.28 logs by jishubao
+ 1. Q1：cubemx生成的悬挂巡检底盘代码存在编码器数据上传更新缓慢，多帧为同一数值；
+ 2. 定位到Q1问题的原因是在函数```canDispatch();```的报文设置闹钟函数SetAlarm里有问题
+   1. 可能原因是函数```proceedNODE_GUARD(d,m);```里设置心跳闹钟```SetAlarm(d, index, &ConsumerHeartbeatAlarm, MS_TO_TIMEVAL(time), 0);```里的时间有问题；
+   2. 可能原因是函数```proceedPDO(d,m);```里设置心跳闹钟```SetAlarm (d, numPdo, d->RxPDO_EventTimers_Handler,MS_TO_TIMEVAL (EventTimerDuration), 0);```里的时间有问题；
+   3. 主要看canopen的定时器功能是否导致了设备网络管理认为设备反复超过最大时间一直掉线上线切换导致报文数据上传不连续
