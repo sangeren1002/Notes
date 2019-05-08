@@ -65,7 +65,7 @@ while (1)
  }
 ```
 编译下载后在串口可以看到打印信息：
-![时钟配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/usart_printf.png?raw=true)
+![串口打印](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/usart_printf.png?raw=true)
 与给定的设备地址相同，说明代码配置的硬件i2c可用，如果有问题可以留言。
 ![公众号二维码](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/gzh_ewm.jpg?raw=true)
 ### 1.5 完美解决I2C总线置位 I2C_FLAG_BUSY
