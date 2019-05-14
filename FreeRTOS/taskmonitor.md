@@ -183,7 +183,7 @@ void StartTask03(void const * argument)
 
 ```
 实际串口输出效果如下
-![实际串口输出效果]((https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/image/freertos_task_monitor_1_printf.png?raw=true))
+![实际串口输出效果](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/image/freertos_task_monitor_1_printf.png?raw=true)
 
 代码修改效果如下：
 ![代码修改1](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/image/freertos_task_monitor_1_code.png?raw=true)
