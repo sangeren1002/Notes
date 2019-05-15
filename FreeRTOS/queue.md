@@ -676,7 +676,10 @@ standard names. */
 #endif /* FREERTOS_CONFIG_H */
 
 ```
-串口打印效果：
+![源代码上传github](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/code/cubemx_queue.zip)
+### 串口打印效果：
 ![串口打印效果](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/image/freertos_queue_1_printf.png?raw=true)
+
+
 
 ![公众号二维码](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/gzh_ewm.jpg?raw=true)
