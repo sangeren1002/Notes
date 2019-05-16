@@ -43,6 +43,9 @@ STM32F407ZGT6包含有3个ADC。STM32F4的ADC最大的转换速率为2.4Mhz，�
 ![ADC中断配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_5.png?raw=true)
 #### ADC1的DMA配置
 ![ADC1的DMA配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_6.png?raw=true)
+>说明一个问题
+这里ADC的DMA设置的是循环模式，数据宽度是字（32位），由于STM32F407存储ADC的结果为一个16位的数据寄存器，故这里可以设置为半字（16位）。已经实际测试，效果是一样的。
+
 
 ***生成代码***
 ### 3. 完善代码
@@ -116,7 +119,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 	}   
 }
 ```
-### 串口打印效果：
+#### 3.5 串口打印效果：
 ![串口打印效果](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_printf.png?raw=true)
 - [源代码上传github](https://github.com/sangeren1002/Notes/blob/master/cubemx/code/cubemx_Multiple_adc.zip)
 
