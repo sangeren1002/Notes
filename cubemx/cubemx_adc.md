@@ -9,6 +9,7 @@ AD很复杂，其实也不复杂，因为我们用的不多。
 - 主要的参数：采样精度与转换速度。
 - 采样精度，也叫作分辨率。如果0-100摄氏度用8位AD来储存的话，精度计算？
 > 0000 0000 —— 0摄氏度 ;  1111 1111 —— 100摄氏度;100/256 = 0.39摄氏度，0.39就是最小份的分辨率，也就是采样精度.没有办法表>现出0.2度。100/65536 = 0.0015，16位的AD，精度就很高了。
+
 - 转换速度
 >从启动到出结果用的时间，一般来说越快越好。与精度不可兼得。被单位时间采样数量影响。采样多，速度不会很快。
 
@@ -25,7 +26,7 @@ AD很复杂，其实也不复杂，因为我们用的不多。
 STM32F4xx系列一般都有3个ADC，这些ADC可以独立使用，也可以使用双重/三重模式（提高采样率）。STM32F4的ADC是12位逐次逼近型的模拟数字转换器。它有19个通道，可测量16个外部源、2个内部源和Vbat通道的信号。这些通道的A/D转换可以单次、连续、扫描或间断模式执行。ADC的结果可以左对齐或右对齐方式存储在16位数据寄存器中。模拟看门狗特性允许应用程序检测输入电压是否超出用户定义的高/低阀值。
 STM32F407ZGT6包含有3个ADC。STM32F4的ADC最大的转换速率为2.4Mhz，也就是转换时间为0.41us（在ADCCLK=36M,采样周期为3个ADC时钟下得到），不要让ADC的时钟超过36M，否则将导致结果准确度下降。
 ## cubemx 配置DMA+多通道ADC(ADC1的4个通道)
-### 1.1 环境：
+### 1. 环境：
 - packages版本（STM32F4 1.21）
 - cubemx版本（version4.27.0 && STM32Cube v1.0）
 - MDK版本（KEIL5 V5.23.0.0）
@@ -33,7 +34,7 @@ STM32F407ZGT6包含有3个ADC。STM32F4的ADC最大的转换速率为2.4Mhz，�
 ![packages版本](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/packages.png?raw=true)
 ![cubemx版本](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/cubemx_ver.png?raw=true)
 ![KEIL5版本](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/MDK%E7%89%88%E6%9C%AC.png?raw=true)
-### cubemx配置主要内容
+### 2. cubemx配置主要内容
 #### ADC1引脚配置
 ![ADC1引脚配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_3.png?raw=true)
 #### ADC1参数配置
@@ -44,8 +45,8 @@ STM32F407ZGT6包含有3个ADC。STM32F4的ADC最大的转换速率为2.4Mhz，�
 ![ADC1的DMA配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_6.png?raw=true)
 
 ***生成代码***
-### 完善代码
-定义变量
+### 3. 完善代码
+#### 3.1 定义变量
 ```
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -57,7 +58,7 @@ uint32_t adc1_aver_val[ADC_CHANNEL_CNT] = {0}; //保存多通道的平均采样�
 uint32_t dma_cnt1 = 0;
 /* USER CODE END PV */
 ```
-开启ADC1的DMA转换
+#### 3.2 开启ADC1的DMA转换
 ```
 /* USER CODE BEGIN 2 */
 HAL_ADC_Start_DMA(&hadc1,(uint32_t*) &adc1_val_buf, (ADC_CHANNEL_CNT*ADC_CHANNEL_FRE));
@@ -65,7 +66,7 @@ HAL_Delay(100);
 /* USER CODE END 2 */
 ```
 这里解释一下`HAL_ADC_Start_DMA()`函数，第一个参数是ADC的操作句柄；第二个参数是用来保存ADC转换结果的数组的地址，是内容的copy所以要传递数组的地址；第三个参数是转换的数据长度。
-主函数
+#### 3.3 完善主函数
 ```
 while (1)
 {
@@ -104,6 +105,7 @@ HAL_Delay(1000);
 HAL_GPIO_TogglePin(GPIOF,GPIO_PIN_10);  
 }
 ```
+#### 3.4 ADC转换完成回调函数完善
 一次ADC转换完成回调函数，可以在里面操作记录DMA搬移数据的次数
 ```
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
