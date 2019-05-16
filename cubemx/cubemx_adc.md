@@ -15,11 +15,11 @@ AD很复杂，其实也不复杂，因为我们用的不多。
   STM32F4使用的AD是逐次逼近型ADC，它产生一系列比较电压VR，但它是逐个产生比较电压，逐次与输入电压分别比较，以逐渐逼近的方式进行模数转换的。它比并联比较型ADC的转换速度慢，比双分积型ADC要快得多，属于中速ADC器件。
 ###  多通道AD采集需要使用DMA
   在STM32的手册中，我们发现，不论是单次采集还是多次采集，转换完成的数据都会放在同一个地方。
-![ADC](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_ADC_1.png?raw=true)
+![ADC](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_1.png?raw=true)
 由于ADC_DR寄存器不是一个数组，而是一个16位的变量，所以只能保存最新的转换结果。例如，通道1和通道2都使用，通道1的转换结果放在DR寄存器。通道2转换完毕以后，就会覆盖通道1的结果。
 
 程序里，当然可以通过一些处理，让通道1的结果在被覆盖之前就保存好。不过，运用STM32的DMA功能，可以更好地解决结果被覆盖的问题。
-![ADC](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_ADC_2.png?raw=true)
+![ADC](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_2.png?raw=true)
 重点：用于高速搬运数据，还无需CPU干预。 因此在多通道采集模拟量是，我们可以建立一个数组，用于储存AD转换的数据。一旦ADC_DR寄存器里有了新的数据，就把新数据放在数组里。一会儿ADC_DR有了一个新的数据，就放在数组下一位。数组装满以后？根据需求来。我们设置的是循环模式，也就是再来一遍，覆盖之前的数据。
 
 STM32F4xx系列一般都有3个ADC，这些ADC可以独立使用，也可以使用双重/三重模式（提高采样率）。STM32F4的ADC是12位逐次逼近型的模拟数字转换器。它有19个通道，可测量16个外部源、2个内部源和Vbat通道的信号。这些通道的A/D转换可以单次、连续、扫描或间断模式执行。ADC的结果可以左对齐或右对齐方式存储在16位数据寄存器中。模拟看门狗特性允许应用程序检测输入电压是否超出用户定义的高/低阀值。
@@ -35,13 +35,13 @@ STM32F407ZGT6包含有3个ADC。STM32F4的ADC最大的转换速率为2.4Mhz，�
 ![KEIL5版本](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/MDK%E7%89%88%E6%9C%AC.png?raw=true)
 ### cubemx配置主要内容
 #### ADC1引脚配置
-![ADC1引脚配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_ADC_3.png?raw=true)
+![ADC1引脚配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_3.png?raw=true)
 #### ADC1参数配置
-![ADC1参数配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_ADC_4.png?raw=true)
+![ADC1参数配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_4.png?raw=true)
 #### ADC中断配置
-![ADC中断配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_ADC_5.png?raw=true)
+![ADC中断配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_5.png?raw=true)
 #### ADC1的DMA配置
-![ADC1的DMA配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_ADC_6.png?raw=true)
+![ADC1的DMA配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_6.png?raw=true)
 
 ***生成代码***
 ### 完善代码
@@ -115,7 +115,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 }
 ```
 ### 串口打印效果：
-![串口打印效果](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_printf.png?raw=true)
+![串口打印效果](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_printf.png?raw=true)
 [源代码上传github](https://github.com/sangeren1002/Notes/blob/master/cubemx/code/cubemx_Multiple_adc.zip)
 
 
