@@ -116,7 +116,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 ```
 ### 串口打印效果：
 ![串口打印效果](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/ADC/cubemx_adc_printf.png?raw=true)
-[源代码上传github](https://github.com/sangeren1002/Notes/blob/master/cubemx/code/cubemx_Multiple_adc.zip)
+- [源代码上传github](https://github.com/sangeren1002/Notes/blob/master/cubemx/code/cubemx_Multiple_adc.zip)
 
 
 ![公众号二维码](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/gzh_ewm.jpg?raw=true)
