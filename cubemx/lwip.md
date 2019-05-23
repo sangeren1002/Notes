@@ -38,7 +38,9 @@
 ![ETH配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_eth_config_2.png?raw=true)
 
 ![ETH配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_eth_config_3.png?raw=true)
-ETH参数设置需要根据芯片手册来确定部分数据
+
+**ETH参数设置需要根据芯片手册来确定部分数据**
+
 ![ETH参数](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_hardware6.png?raw=true)
 ![ETH参数](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_hardware7.png?raw=true)
 - PHY芯片的配置需要注意以下几项：
