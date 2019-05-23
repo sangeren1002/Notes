@@ -76,4 +76,4 @@
 ping设置的IP地址`192.168.0.100`看能否ping通
 ![ping](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_cmd.png?raw=true)
 可以看到IP地址可以ping通，延时不超过1ms。
-- ![代码上传github](https://github.com/sangeren1002/Notes/blob/master/cubemx/code/lwip_cubemx.zip)
+- [代码上传github](https://github.com/sangeren1002/Notes/blob/master/cubemx/code/lwip_cubemx.zip)
