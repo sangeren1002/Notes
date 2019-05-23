@@ -70,10 +70,17 @@
 ## 4. 实验效果
 ### 4.1 路由器端查看
 是否存在已经在工程中设置ip地址为`192.168.0.100`，MAC地址为`00:80:E1:00:00:00`的设备。
+
 ![路由端](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_tplink.png?raw=true)
-可以看到IP地址和MAC地址符合我们代码中设置的。
+
+**可以看到IP地址和MAC地址符合我们代码中设置的。**
 ### 4.2 ping开发板
 ping设置的IP地址`192.168.0.100`看能否ping通
+
 ![ping](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_cmd.png?raw=true)
-可以看到IP地址可以ping通，延时不超过1ms。
+
+**可以看到IP地址可以ping通，延时不超过1ms。**
+
 - [代码上传github](https://github.com/sangeren1002/Notes/blob/master/cubemx/code/lwip_cubemx.zip)
+-
+ ![公众号二维码](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/gzh_ewm.jpg?raw=true)
