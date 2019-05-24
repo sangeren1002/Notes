@@ -72,7 +72,6 @@
 是否存在已经在工程中设置ip地址为`192.168.0.100`，MAC地址为`00:80:E1:00:00:00`的设备。
 
 ![路由端](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_tplink.png?raw=true)
-
 **可以看到IP地址和MAC地址符合我们代码中设置的。**
 ### 4.2 ping开发板
 ping设置的IP地址`192.168.0.100`看能否ping通
@@ -82,5 +81,25 @@ ping设置的IP地址`192.168.0.100`看能否ping通
 **可以看到IP地址可以ping通，延时不超过1ms。**
 
 - [代码上传github](https://github.com/sangeren1002/Notes/blob/master/cubemx/code/lwip_cubemx.zip)
--
+
+# cubemx 配置无操作系统下的LWIP的TCP/UDP/WEBServer实现
+与上文中的`cubemx 配置无操作系统下的LWIP`操作不同之处
+  - 时钟配置。按照上文配置`MOC1`时钟频率为50MHz却不能正常工作（短暂的可以看到路由端查看到设备后消失）。在网上参考其他文章发现不用设置`MOC1`也可以实现网络通信操作，不过需要设置选择外部告诉时钟源。具体时钟设置如下图：
+![cubemx_lwip_webserver_clock](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_webserver_clock.png?raw=true)
+  - 代码修改，工程添加新分组添加9个.c源文件，后编译会提示3个`error`，缺少外部申明，在`lwip.h`文件中添加变量申明后不存在`error`编译下载，设备没有开启`DHCP`，ip地址为192.168.0.100，本地端口为`8880`,远端端口为`8881`。使用TCPServer、TCPClient、UDPServer、UDPClient、WEBServer功能在`App_init()`函数内开启或者关闭。
+
+![cubemx_lwip_webserver_clock](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_webserver_clock.png?raw=true)
+
+![cubemx_lwip_webserver_code0](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_webserver_code0.png?raw=true)
+
+![cubemx_lwip_webserver_code1](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_webserver_code1.png?raw=true)
+
+![cubemx_lwip_webserver_code3](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_webserver_code3.png?raw=true)
+
+![cubemx_lwip_webserver_code2](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_webserver_code2.png?raw=true)
+
+![cubemx_lwip_webserver_code5](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_webserver_code5.png?raw=true)
+
+- [代码上传github](https://github.com/sangeren1002/Notes/blob/master/cubemx/code/lwip_cubemx1.zip)
+
  ![公众号二维码](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/gzh_ewm.jpg?raw=true)
