@@ -686,7 +686,7 @@ typedef struct AMessage
     char ucData[ 20 ];
 }MSG;
 ```
-3. 多字节的大数据传输时，最好在全局区定义并赋初始值以便程序运行时即可分配空间。
+3. 多字节的大数据传输时，一定要在全局区定义并赋初始值以便程序运行时即可分配空间，如果在函数内部定义为局部变量（要传输的结构体指针），在函数结束时释放空间，则改地址可能被修改，在消息队列接收时出现数据错误。
 
 
 [源代码1上传github](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/code/cubemx_queue.zip)
