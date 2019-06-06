@@ -676,7 +676,21 @@ standard names. */
 #endif /* FREERTOS_CONFIG_H */
 
 ```
-[源代码上传github](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/code/cubemx_queue.zip)
+*FreeRTOS使用queue的注意事项*
+1. FreeRTOS消息队列最大传递数据为一个32位值，且底层实现是memcpy，所以需要传递变量地址；如果只是简单的变量传输可以直接传递变量地址，`osMessageQDef(myQueue01, 32, uint8_t);`中的最后一个参数type可以为uint8_t或uint16_t或uint32_t等。
+2. 如果想要传输多字节数据，我们只要将指向数据的地址的指针传递过去即可（指针本身大小为32位），如我们定义一个结构体指针`TXMSG`用来存放发送数据，数据完成打包后，使用`在xQueueSend(myQueue02Handle,(void*)&TXMSG,0)`将结构体指针的地址用消息队列发送出去。在消息队列接收端同样定义一个相同类型的结构体指针`RXMSG`来接收数据`xQueueReceive( myQueue02Handle, (void*)&RXMSG, 10)`,这样即可以实现多字节大量数据的传输。 ```
+typedef struct AMessage
+{
+    char ucMessageID;
+    char ucData[ 20 ];
+}MSG;
+```
+3. 多字节的大数据传输时，最好在全局区定义并赋初始值以便程序运行时即可分配空间。
+
+
+[源代码1上传github](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/code/cubemx_queue.zip)
+
+[源代码2上传github](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/code/cubemx_queue1.zip)
 ### 串口打印效果：
 ![串口打印效果](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/image/freertos_queue_1_printf.png?raw=true)
 
