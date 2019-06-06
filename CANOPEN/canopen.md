@@ -751,3 +751,5 @@ RPDO3解析ID为1的状态字&电流值报文内容
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190606141311532.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpbmd6aGV3YW5mdQ==,size_16,color_FFFFFF,t_70)
 
 [为知笔记原文链接](http://d5da2ffa.wiz03.com/share/s/3lSy_W0xl4SM2WTmit29CtcC1LEspk1W7AgG22pWhX3wP9uD)
+
+![公众号二维码](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/gzh_ewm.jpg?raw=true)
