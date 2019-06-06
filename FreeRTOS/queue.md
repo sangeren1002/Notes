@@ -693,6 +693,10 @@ typedef struct AMessage
 
 [源代码2上传github](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/code/cubemx_queue1.zip)
 
+[源代码3上传github](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/code/demo_freertos.zip)
+
+
+
 ### 串口打印效果：
 ![串口打印效果](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/image/freertos_queue_1_printf.png?raw=true)
 
