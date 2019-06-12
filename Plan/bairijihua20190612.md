@@ -18,7 +18,7 @@
 
 - [书籍链接](https://github.com/newnongchaoer/Book)
 - 作息计划
-![作息计划](https://github.com/sangeren1002/Notes/blob/master/Plan/image/plan20190612.png?raw=true)
+![作息计划](https://github.com/sangeren1002/Notes/blob/master/Plan/Image/plan20190612.png?raw=true)
 
 ## 第 1 周
 >**第 1 天（2019年6月12号）**
