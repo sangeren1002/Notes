@@ -14,8 +14,11 @@
 >
 > **2. 跑步总里程不低于500KM**
 
-[内容更新链接](http://d5da2ffa.wiz03.com/share/s/3lSy_W0xl4SM2WTmit29CtcC0Xo3bx2CBADh2QznLN3lrhZi)
-[书籍链接](https://github.com/newnongchaoer/Book)
+- [内容更新链接](http://d5da2ffa.wiz03.com/share/s/3lSy_W0xl4SM2WTmit29CtcC0Xo3bx2CBADh2QznLN3lrhZi)
+
+- [书籍链接](https://github.com/newnongchaoer/Book)
+- 作息计划
+![作息计划](https://github.com/sangeren1002/Notes/blob/master/Plan/image/plan20190612.png?raw=true)
 
 ## 第 1 周
 >**第 1 天（2019年6月12号）**
