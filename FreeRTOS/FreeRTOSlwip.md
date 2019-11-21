@@ -64,7 +64,7 @@
 ![时钟配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_clock.png?raw=true)
 ## 3. 代码完善
 ### 3.1 添加对PHY硬件复位的代码
-![PHY硬件复位的代码](https://github.com/sangeren1002/Notes/FreeRTOS/image/FreeRTOSlwip_code1.png?raw=true)
+![PHY硬件复位的代码](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/image/FreeRTOSlwip_code1.png?raw=true)
 
 ## 4. 实验效果
 ### 4.1 路由器端查看
