@@ -13,7 +13,8 @@
 * [二、FreeRTOS系列](/cubemx/README.md)
 
     * [2.1 queue教程](/FreeRTOS/queue.md)
-    * [1.2 taskmontor教程](/FreeRTOS/taskmontor.md)
+    * [2.2 taskmontor教程](/FreeRTOS/taskmontor.md)
+    * [2.3 FreeRTOS lwip教程](/FreeRTOS/FreeRTOSlwip.md)
 
 * [开发日志记录](/logs/README.md)
   * [悬挂底盘](/logs/xuanguadipan.md)
