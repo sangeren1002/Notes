@@ -25,7 +25,7 @@
 ***注意：LAN8720A 可以通过 PHYAD0 引脚来配置，该引脚与 RXER 引脚复用，芯片内部自带下拉电阻，当硬复位结束后， LAN8720A 会读取该引脚电平，作为器件的 SMI 地址，接下拉电阻时（浮空也可以，因为芯片内部自带了下拉电阻），设置 SMI 地址为 0，当外接上拉电阻后，可以设置为 1。本硬件RXER引脚浮空，其PHY芯片地址为0。***
 ## 2. cubemx配置主要内容
 ### 2.1 RCC配置
-![RCC配置](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/image/LWIPFreeRTOSlwip_RCC.png?raw=true)
+![RCC配置](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/image/FreeRTOSlwip_RCC.png?raw=true)
 ### 2.2 SYS配置
 ![SYS配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_sys.png?raw=true)
 ### 2.3 USART1配置
@@ -64,7 +64,7 @@
 ![时钟配置](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/LWIP/cubemx_lwip_clock.png?raw=true)
 ## 3. 代码完善
 ### 3.1 添加对PHY硬件复位的代码
-![PHY硬件复位的代码](https://github.com/sangeren1002/Notes/blob/FreeRTOS/image/FreeRTOSlwip_code1.png?raw=true)
+![PHY硬件复位的代码](https://github.com/sangeren1002/Notes/FreeRTOS/image/FreeRTOSlwip_code1.png?raw=true)
 
 ## 4. 实验效果
 ### 4.1 路由器端查看
@@ -81,8 +81,6 @@ ping设置的IP地址`192.168.0.100`看能否ping通
 **可以看到IP地址可以ping通，延时不超过1ms。**
 
 - [代码上传github](https://github.com/sangeren1002/Notes/blob/master/FreeRTOS/code/LWIP_FreeRTOS.zip)
-
-
 
 
  ![公众号二维码](https://github.com/sangeren1002/Notes/blob/master/cubemx/image/I2C/gzh_ewm.jpg?raw=true)
