@@ -3,6 +3,8 @@
 #include "bsp_gpio.h"
 #include "app_debug.h"
 #include "string.h"
+#include "bsp_iap.h"
+
 
 USART_RECEIVETYPE Usart1AppRecvInit;
 USART_RECEIVETYPE Usart2AppRecvInit;
@@ -24,6 +26,7 @@ void ProcessSysInit(void)
 	Upload2PCTaskHandle = osThreadCreate(osThread(Upload2PCTask), NULL);
 
     UsartInit();
+    Read_Device_info();
 	printf("[ OK ] 系统初始化完成,开始运行\r\n");
 	osThreadSuspend(SysInitTaskHandle);
     osDelay(1);
@@ -45,10 +48,8 @@ void ProcessDebugCmdTask(void)
 		if(xQueueReceive(U1RecvQueueHandle,&Usart1AppRecv_p,5) == pdTRUE)
 		{
 	        //AppPrintf("%s",(char*)Usart1AppRecv_p->RX_pData);
-			//DebugMy_USART(Usart1MsgRecv_app->RX_pData,Usart1MsgRecv_app->RX_Size);
-			
+			//DebugMy_USART(Usart1MsgRecv_app->RX_pData,Usart1MsgRecv_app->RX_Size);		
             DebugCmdArgAnalyze((char*)Usart1AppRecv_p->RX_pData, Usart1AppRecv_p->RX_Size);
-
 		}
 		osDelay(1);
 	}

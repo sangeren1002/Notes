@@ -1,6 +1,7 @@
 #include "app_debug.h"
 #include "bsp_usart.h"
 #include "string.h"
+#include "bsp_iap.h"
 #include <ctype.h>
 
 /*命令表*/
@@ -15,8 +16,10 @@ const cmd_list_struct cmd_list[]={
 {"mov",   			2,      DebugCmdMov,    		"mov <arg1> <arg2>    			- 控制运动,<arg1>为方向 1前进 2后退 3左转 4右转 <arg2>为整车速度单位cm/s\r\n"},
 {"shutdown",   		0,      DebugCmdshutdown,    	"shutdown     					- 执行关机指令\r\n"},
 {"reboot",   		0,      DebugCmdReboot,    		"reboot     					- 执行重启指令\r\n"},
-{"ks103chaaddr",	2,      DebugCmdks103chaaddr,   "ks103chaaddr <arg1> <arg2>     - 执行修改KS103地址指令,<arg1>旧地址 <arg1>新地址\r\n"},
-{"ks103addrprintf",	1,      DebugCmdks103addrprintf,"ks103addrprintf <arg1>     	- 打印KS103地址指令,<arg1> id号 缺省则打印所有r\n"}
+{"ks103chaaddr",	2,      DebugCmdks103chaaddr,   "ks103chaaddr <arg1> <arg2>     - 执行修改KS103地址指令,<arg1>旧地址 <arg2>新地址\r\n"},
+{"ks103addrprintf",	1,      DebugCmdks103addrprintf,"ks103addrprintf <arg1>     	- 打印KS103地址指令,<arg1> id号 缺省则打印所有r\n"},
+{"setfirmware",		2,      DebugCmdsetfirmware,	"setfirmware <arg1> <arg2>  	- 设置固件信息,<arg1>序列号 <arg2>生产日期 r\n"},
+{"readfirmware",	0,      DebugCmdreadfirmware,	"readfirmware <arg1> <arg2>  	- 读取固件信息 r\n"}
 };
 
 cmd_analyze_struct cmd_analyze;
@@ -406,6 +409,43 @@ void DebugCmdks103addrprintf(int32_t argc,void * cmd_arg)
         }
      }
 
+}
+void DebugCmdsetfirmware(int32_t argc,void * cmd_arg)
+{
+    uint32_t i;
+    int32_t  *arg=(int32_t *)cmd_arg;
+    
+     if(argc==0)
+     {
+        AppPrintf("无参数\n");
+     }
+     else
+     {
+        for(i=0;i<argc;i++)
+        {
+            AppPrintf("第%d个参数:%d\n",i+1,arg[i]);
+        }
+     }
+	SetFirmwareInfo(arg[0], arg[1], DEVICE_AUTHOR, DEVICE_EMAIL);
+}
+
+void DebugCmdreadfirmware(int32_t argc,void * cmd_arg)
+{
+    uint32_t i;
+    int32_t  *arg=(int32_t *)cmd_arg;
+    
+     if(argc==0)
+     {
+        AppPrintf("无参数\n");
+     }
+     else
+     {
+        for(i=0;i<argc;i++)
+        {
+            AppPrintf("第%d个参数:%d\n",i+1,arg[i]);
+        }
+     }
+	Read_Device_info();
 }
 void Show_SYS_INFO_Task(void)
 {

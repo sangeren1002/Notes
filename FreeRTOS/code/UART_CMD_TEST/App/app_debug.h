@@ -54,6 +54,8 @@ extern void handle_arg(int32_t argc,void * cmd_arg);
 extern void printf_hello(int32_t argc,void *cmd_arg);
 extern void printf_help(int32_t argc,void * cmd_arg);
 extern int32_t string_to_dec(uint8_t *buf,uint32_t len);
+extern void DebugCmdsetfirmware(int32_t argc,void * cmd_arg);
+extern void DebugCmdreadfirmware(int32_t argc,void * cmd_arg);
 extern void Show_SYS_INFO_Task(void);
 
 

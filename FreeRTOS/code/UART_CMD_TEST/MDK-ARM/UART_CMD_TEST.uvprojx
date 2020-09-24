@@ -587,6 +587,16 @@
               <FileType>1</FileType>
               <FilePath>..\Bsp\bsp_usart.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_iap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\bsp_iap.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_stm32flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\bsp_stm32flash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -601,6 +611,16 @@
               <FileName>app_debug.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\App\app_debug.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Doc</GroupName>
+          <Files>
+            <File>
+              <FileName>更新记录.md</FileName>
+              <FileType>9</FileType>
+              <FilePath>..\Doc\更新记录.md</FilePath>
             </File>
           </Files>
         </Group>

@@ -147,7 +147,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of SysInitTask */
-  osThreadDef(SysInitTask, StartSysInitTask, osPriorityNormal, 0, 128);
+  osThreadDef(SysInitTask, StartSysInitTask, osPriorityNormal, 0, 256);
   SysInitTaskHandle = osThreadCreate(osThread(SysInitTask), NULL);
 
 //  /* definition and creation of DebugCmdTask */
