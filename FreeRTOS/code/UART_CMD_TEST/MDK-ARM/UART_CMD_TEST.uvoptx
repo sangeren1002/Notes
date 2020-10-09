@@ -726,12 +726,12 @@
     <File>
       <GroupNumber>8</GroupNumber>
       <FileNumber>41</FileNumber>
-      <FileType>9</FileType>
+      <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Doc\更新记录.md</PathWithFileName>
-      <FilenameWithoutPath>更新记录.md</FilenameWithoutPath>
+      <PathWithFileName>..\Doc\更新记录.txt</PathWithFileName>
+      <FilenameWithoutPath>更新记录.txt</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

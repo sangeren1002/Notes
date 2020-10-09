@@ -48,9 +48,9 @@ void UsartReceive_IDLE(UART_HandleTypeDef *huart)
 //            HAL_UART_Receive_DMA(huart,UsartType.RX_pData,RX_LEN);  
 			Usart1TypeRecv_p->RX_Size = RX_LEN - temp;
 			Usart1TypeRecv_p->RX_flag = 1;  
-			HAL_UART_Receive_DMA(huart,Usart1TypeRecv_p->RX_pData,RX_LEN);
-            xQueueSendFromISR(U1RecvQueueHandle, (u32*)&Usart1TypeRecv_p, &pxHigherPriorityTaskWoken);
+			xQueueSendFromISR(U1RecvQueueHandle, (u32*)&Usart1TypeRecv_p, &pxHigherPriorityTaskWoken);
 			portYIELD_FROM_ISR(pxHigherPriorityTaskWoken);
+			HAL_UART_Receive_DMA(huart,Usart1TypeRecv_p->RX_pData,RX_LEN);
         }
         else if(huart->Instance==USART2)
         {
@@ -59,9 +59,10 @@ void UsartReceive_IDLE(UART_HandleTypeDef *huart)
 //            HAL_UART_Receive_DMA(huart,Usart2Type.RX_pData,RX_LEN);  
 			Usart2TypeRecv_p->RX_Size = RX_LEN - temp;
 			Usart2TypeRecv_p->RX_flag = 1;  
-			HAL_UART_Receive_DMA(huart,Usart2TypeRecv_p->RX_pData,RX_LEN);
+			
             xQueueSendFromISR(U2RecvQueueHandle, (u32*)&Usart2TypeRecv_p, &pxHigherPriorityTaskWoken);
 			portYIELD_FROM_ISR(pxHigherPriorityTaskWoken);
+			HAL_UART_Receive_DMA(huart,Usart2TypeRecv_p->RX_pData,RX_LEN);
         }                  
     } 
  
@@ -73,9 +74,12 @@ void UsartReceive_IDLE(UART_HandleTypeDef *huart)
 	原因: 发送前需要判断串口状态，串口状态在串口发送完成回调函数里更新*/
 //	while(HAL_UART_STATE_READY != huart2.gState && cnt< HAL_MAX_DELAY-1)cnt++; 
 //	taskENTER_CRITICAL();
+	
+
+
 	if(HAL_UART_STATE_READY == huart2.gState)
 	{
-		if (HAL_UART_Transmit_DMA(&huart2, data, len) != HAL_OK)
+		if (HAL_UART_Transmit(&huart2, data, len, 0xffff) != HAL_OK)
 		{
 			/* Transfer error in transmission process */                                                                                  
 			//Error_Handler();   
@@ -90,6 +94,7 @@ void UsartReceive_IDLE(UART_HandleTypeDef *huart)
 		return 1;
 	}
 //	taskEXIT_CRITICAL();
+
 	return 0;
 }
 

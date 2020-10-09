@@ -1,12 +1,3 @@
-/***********************************************************************************
- * 文 件 名   : bsp_usart.h
- * 负 责 人   : jishubao
- * 创建日期   : 2020年9月23日
- * 文件描述   : bsp_usart.c 的头文件
- * 版权说明   : Copyright (c) 2008-2020   杭州国辰机器人科技有限公司
- * 其    他   : 
- * 修改日志   : 
-***********************************************************************************/
 
 #ifndef __BSP_USART_H__
 #define __BSP_USART_H__
@@ -47,6 +38,7 @@ extern osMessageQId U2RecvQueueHandle;
 extern osMessageQId U2SendQueueHandle;
 extern osMessageQId U1SendQueueHandle;
 extern osMutexId PrintfMutexHandle;
+extern osMutexId U2PrintfMutexHandle;
 
 extern void UsartInit(void);
 extern void AppPrintf(char *format, ...);

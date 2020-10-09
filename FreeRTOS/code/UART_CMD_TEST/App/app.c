@@ -42,7 +42,8 @@ void ProcessLedRun(void)
 }
 void ProcessDebugCmdTask(void)
 {
-
+	char buff[100];
+	static uint32_t cnt=0;
     while(1)
 	{
 		if(xQueueReceive(U1RecvQueueHandle,&Usart1AppRecv_p,5) == pdTRUE)
@@ -51,8 +52,28 @@ void ProcessDebugCmdTask(void)
 			//DebugMy_USART(Usart1MsgRecv_app->RX_pData,Usart1MsgRecv_app->RX_Size);		
             DebugCmdArgAnalyze((char*)Usart1AppRecv_p->RX_pData, Usart1AppRecv_p->RX_Size);
 		}
+		osDelay(5);
+		sprintf(buff,(char*)"test info usart2 send cnt %d\r\n",cnt);
+			/* »¥³â²Ù×÷ */
+		osMutexWait(U2PrintfMutexHandle,osWaitForever);
+		USART2_Send_DMA((uint8_t*)buff,strlen(buff));
+		osMutexRelease(U2PrintfMutexHandle);
+		cnt++;
+	}
+}
+void ProcessStartUpload2PCTask(void)
+{
+	
+    while(1)
+	{
+		if(xQueueReceive(U2RecvQueueHandle,&Usart2AppRecv_p,5) == pdTRUE)
+		{
+	        AppPrintf("%s",(char*)Usart1AppRecv_p->RX_pData);
+			osMutexWait(U2PrintfMutexHandle,osWaitForever);
+			USART2_Send_DMA(Usart2AppRecv_p->RX_pData, Usart2AppRecv_p->RX_Size);
+			osMutexRelease(U2PrintfMutexHandle);
+		}
 		osDelay(1);
 	}
 }
-
 

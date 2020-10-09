@@ -25,6 +25,8 @@ extern "C"{
 #define ARG_NUM     8          //命令中允许的参数个数
 #define CMD_LEN     20         //命令名占用的最大字符长度
 #define CMD_BUF_LEN 60         //命令缓存的最大长度
+#define ADMIN_PASSWORD "666666"
+#define ADMIN_PASSWORD_LEN 6
 typedef struct {
     char rec_buf[CMD_BUF_LEN];            //接收命令缓冲区
     char processed_buf[CMD_BUF_LEN];      //存储加工后的命令(去除控制字符)
@@ -56,6 +58,7 @@ extern void printf_help(int32_t argc,void * cmd_arg);
 extern int32_t string_to_dec(uint8_t *buf,uint32_t len);
 extern void DebugCmdsetfirmware(int32_t argc,void * cmd_arg);
 extern void DebugCmdreadfirmware(int32_t argc,void * cmd_arg);
+extern void DebugCmdAdmin(int32_t argc,void * cmd_arg);
 extern void Show_SYS_INFO_Task(void);
 
 

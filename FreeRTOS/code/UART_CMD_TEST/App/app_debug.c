@@ -7,22 +7,24 @@
 /*命令表*/
 const cmd_list_struct cmd_list[]={
 /*   命令    参数数目    处理函数        帮助信息                         */   
-{"hello",   		0,      printf_hello,   		"hello                      	- 打印HelloWorld!\r\n"},
-{"arg",     		8,      handle_arg,     		"arg <arg1> <arg2> ...      	- 测试用,打印输入的参数\r\n"},
-{"help",    		0,      printf_help,    		"help                       	- 输出功能菜单\r\n"},
-{"taskinfo",		1,      DebugCmdTaskinfo,    	"taskinfo						- 打印超声设备信息 arg1(1-6)大于6即为所有超声\r\n"},
-{"ultprintf",   	1,      DebugCmdUltprintf,    	"ultprintf <arg1>    			- 打印超声距离 arg1(1-6)大于6即为所有超声\r\n"},
-{"ultmsg",   		1,      DebugCmdUltmsg,    		"ultmsg <arg1>    				- 打印超声设备信息 arg1(1-6)大于6即为所有超声\r\n"},
-{"mov",   			2,      DebugCmdMov,    		"mov <arg1> <arg2>    			- 控制运动,<arg1>为方向 1前进 2后退 3左转 4右转 <arg2>为整车速度单位cm/s\r\n"},
-{"shutdown",   		0,      DebugCmdshutdown,    	"shutdown     					- 执行关机指令\r\n"},
-{"reboot",   		0,      DebugCmdReboot,    		"reboot     					- 执行重启指令\r\n"},
-{"ks103chaaddr",	2,      DebugCmdks103chaaddr,   "ks103chaaddr <arg1> <arg2>     - 执行修改KS103地址指令,<arg1>旧地址 <arg2>新地址\r\n"},
-{"ks103addrprintf",	1,      DebugCmdks103addrprintf,"ks103addrprintf <arg1>     	- 打印KS103地址指令,<arg1> id号 缺省则打印所有r\n"},
-{"setfirmware",		2,      DebugCmdsetfirmware,	"setfirmware <arg1> <arg2>  	- 设置固件信息,<arg1>序列号 <arg2>生产日期 r\n"},
-{"readfirmware",	0,      DebugCmdreadfirmware,	"readfirmware <arg1> <arg2>  	- 读取固件信息 r\n"}
+{"hello",   		0,      printf_hello,   		"hello                          - 打印 HelloWorld!\r\n"},
+{"arg",     		8,      handle_arg,     		"arg <arg1> <arg2> ...          - 测试用,打印输入的参数\r\n"},
+{"help",    		0,      printf_help,    		"help                           - 输出功能菜单\r\n"},
+{"taskinfo",		1,      DebugCmdTaskinfo,    	"taskinfo                       - 打印超声设备信息 arg1(1-6)大于6即为所有超声\r\n"},
+{"ultprintf",   	1,      DebugCmdUltprintf,    	"ultprintf <arg1>               - 打印超声距离 arg1(1-6)大于6即为所有超声\r\n"},
+{"ultmsg",   		1,      DebugCmdUltmsg,    		"ultmsg <arg1>                  - 打印超声设备信息 arg1(1-6)大于6即为所有超声\r\n"},
+{"mov",   			2,      DebugCmdMov,    		"mov <arg1> <arg2>              - 控制运动,<arg1>为方向 1前进 2后退 3左转 4右转 <arg2>为整车速度单位cm/s\r\n"},
+{"shutdown",   		0,      DebugCmdshutdown,    	"shutdown                       - 执行关机指令\r\n"},
+{"reboot",   		0,      DebugCmdReboot,    		"reboot                         - 执行重启指令\r\n"},
+{"ks103chaaddr",	2,      DebugCmdks103chaaddr,   "ks103chaaddr <arg1> <arg2>     - 执行修改KS103地址指令,<arg1>旧地址 <arg1>新地址\r\n"},
+{"ks103addrprintf",	1,      DebugCmdks103addrprintf,"ks103addrprintf <arg1>         - 打印KS103地址指令,<arg1> id号 缺省则打印所有r\n"},
+{"setfirmware",		2,      DebugCmdsetfirmware,	"setfirmware <arg1> <arg2>      - 设置固件信息,<arg1>序列号 <arg2>生产日期 r\n"},
+{"readfirmware",	0,      DebugCmdreadfirmware,	"readfirmware <arg1> <arg2>     - 读取固件信息 \r\n"},
+{"admin",ADMIN_PASSWORD_LEN,      DebugCmdAdmin,	"admin <arg1> <arg2>     		- 系统管理员权限 \r\n"}
 };
 
 cmd_analyze_struct cmd_analyze;
+uint8_t adminMode=0;	//0非管理员模式 1管理员模式
 
 void DebugCmdArgAnalyze(char *buff, uint16_t len)
 {
@@ -426,7 +428,10 @@ void DebugCmdsetfirmware(int32_t argc,void * cmd_arg)
             AppPrintf("第%d个参数:%d\n",i+1,arg[i]);
         }
      }
-	SetFirmwareInfo(arg[0], arg[1], DEVICE_AUTHOR, DEVICE_EMAIL);
+	if(adminMode)
+		SetFirmwareInfo(arg[0], arg[1], DEVICE_AUTHOR, DEVICE_EMAIL);
+	else
+		AppPrintf("[ ERROR ] 仅管理员权限可以设置固件信息\n",i+1,arg[i]);
 }
 
 void DebugCmdreadfirmware(int32_t argc,void * cmd_arg)
@@ -447,6 +452,47 @@ void DebugCmdreadfirmware(int32_t argc,void * cmd_arg)
      }
 	Read_Device_info();
 }
+void DebugCmdAdmin(int32_t argc,void * cmd_arg)
+{
+    uint32_t i;
+	uint8_t pass_cnt = 0;
+    int32_t  *arg=(int32_t *)cmd_arg;
+	char* password= ADMIN_PASSWORD;
+	memcpy(password,ADMIN_PASSWORD,ADMIN_PASSWORD_LEN);
+    
+     if(argc==0)
+     {
+        AppPrintf("无参数\n");
+     }
+     else
+     {
+        for(i=0;i<argc;i++)
+        {
+            AppPrintf("第%d个参数:%d\n",i+1,arg[i]);
+        }
+     }
+	 if(argc == ADMIN_PASSWORD_LEN)
+	 {
+		for(i=0;(i<argc)&&(i<ADMIN_PASSWORD_LEN);i++)
+		{
+			if(password[i]-'0' == arg[i])
+				pass_cnt++;
+		}
+		if(pass_cnt==ADMIN_PASSWORD_LEN)
+		{
+			AppPrintf("[ OK ] 进入管理员模式\r\n");
+			adminMode=1;
+		}
+		else
+		{
+			AppPrintf("[ Error ] 进入管理员模式失败 \r\n");
+			adminMode=0;
+		}
+	 }
+	 
+
+}
+
 void Show_SYS_INFO_Task(void)
 {
 	uint8_t pcWriteBuffer[400];

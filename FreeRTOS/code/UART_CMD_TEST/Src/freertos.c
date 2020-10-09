@@ -78,6 +78,7 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
 volatile unsigned long  ulHighFrequencyTimerTicks;
+osMutexId U2PrintfMutexHandle;
 /* USER CODE END Variables */
 osThreadId SysInitTaskHandle;
 osThreadId DebugCmdTaskHandle;
@@ -135,6 +136,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
+	  osMutexDef(U2PrintfMutex);
+  U2PrintfMutexHandle = osMutexCreate(osMutex(U2PrintfMutex));
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
