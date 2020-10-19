@@ -4,7 +4,11 @@
 #include "app_debug.h"
 #include "string.h"
 #include "bsp_iap.h"
+#include "bsp_timer.h"
+#include "ks103.h"
 
+
+CHIP_INFO chip_info;
 
 USART_RECEIVETYPE Usart1AppRecvInit;
 USART_RECEIVETYPE Usart2AppRecvInit;
@@ -13,6 +17,10 @@ USART_RECEIVETYPE *Usart1AppRecv_p = &Usart1AppRecvInit;
 USART_RECEIVETYPE *Usart2AppRecv_p = &Usart2AppRecvInit;
 void ProcessSysInit(void)
 {
+	uint8_t year,week;
+    
+	My_GPIO_Init();
+	KS103_Init(&year,&week);
 	/* definition and creation of DebugCmdTask */
 	osThreadDef(DebugCmdTask, StartDebugCmdTask, osPriorityAboveNormal, 0, 512);
 	DebugCmdTaskHandle = osThreadCreate(osThread(DebugCmdTask), NULL);
@@ -24,19 +32,49 @@ void ProcessSysInit(void)
 	/* definition and creation of Upload2PCTask */
 	osThreadDef(Upload2PCTask, StartUpload2PCTask, osPriorityAboveNormal, 0, 256);
 	Upload2PCTaskHandle = osThreadCreate(osThread(Upload2PCTask), NULL);
-
+	
+	TimerInit();
     UsartInit();
-    Read_Device_info();
-	printf("[ OK ] 系统初始化完成,开始运行\r\n");
+	
+	HAL_GetUID(chip_info.UID);
+	chip_info.flashsize = (uint16_t)(READ_REG(*((uint32_t *)FLASHSIZE_BASE)));
+
+	AppPrintf("GetUID:%x %x %x\r\n",chip_info.UID[0],chip_info.UID[1],chip_info.UID[2]);
+	AppPrintf("FlashSize:%d K\r\n",chip_info.flashsize );
+	
+	AppPrintf("[ OK ] 系统初始化完成,开始运行\r\n");
 	osThreadSuspend(SysInitTaskHandle);
     osDelay(1);
 
 }
 void ProcessLedRun(void)
 {
+	uint32_t i=0;
     while(1)
     {
         LedRunToggle();
+		if(i == 1)
+		{
+			BJ_Led_RedOn();
+			BJ_Led_GreenOff();
+			BJ_Led_YellowOff();
+		}
+		else if(i == 2)
+		{
+			BJ_Led_YellowOn();
+			BJ_Led_RedOff();
+			BJ_Led_GreenOff();
+		}
+		else if( i== 3)
+		{
+			BJ_Led_GreenOn();
+			BJ_Led_RedOff();
+			BJ_Led_YellowOff();
+		}
+		else
+			i=0;
+		i++;
+
         osDelay(LEDRUN_CYCLE);
     }
 }

@@ -2,6 +2,7 @@
 #include "bsp_usart.h"
 #include "string.h"
 #include "bsp_iap.h"
+#include "ks103.h"
 #include <ctype.h>
 
 /*命令表*/
@@ -10,7 +11,7 @@ const cmd_list_struct cmd_list[]={
 {"hello",   		0,      printf_hello,   		"hello                          - 打印 HelloWorld!\r\n"},
 {"arg",     		8,      handle_arg,     		"arg <arg1> <arg2> ...          - 测试用,打印输入的参数\r\n"},
 {"help",    		0,      printf_help,    		"help                           - 输出功能菜单\r\n"},
-{"taskinfo",		1,      DebugCmdTaskinfo,    	"taskinfo                       - 打印超声设备信息 arg1(1-6)大于6即为所有超声\r\n"},
+{"task",			1,      DebugCmdTaskinfo,    	"task                           - 打印超声设备信息 arg1(1-6)大于6即为所有超声\r\n"},
 {"ultprintf",   	1,      DebugCmdUltprintf,    	"ultprintf <arg1>               - 打印超声距离 arg1(1-6)大于6即为所有超声\r\n"},
 {"ultmsg",   		1,      DebugCmdUltmsg,    		"ultmsg <arg1>                  - 打印超声设备信息 arg1(1-6)大于6即为所有超声\r\n"},
 {"mov",   			2,      DebugCmdMov,    		"mov <arg1> <arg2>              - 控制运动,<arg1>为方向 1前进 2后退 3左转 4右转 <arg2>为整车速度单位cm/s\r\n"},
@@ -20,7 +21,7 @@ const cmd_list_struct cmd_list[]={
 {"ks103addrprintf",	1,      DebugCmdks103addrprintf,"ks103addrprintf <arg1>         - 打印KS103地址指令,<arg1> id号 缺省则打印所有r\n"},
 {"setfirmware",		2,      DebugCmdsetfirmware,	"setfirmware <arg1> <arg2>      - 设置固件信息,<arg1>序列号 <arg2>生产日期 r\n"},
 {"readfirmware",	0,      DebugCmdreadfirmware,	"readfirmware <arg1> <arg2>     - 读取固件信息 \r\n"},
-{"admin",ADMIN_PASSWORD_LEN,      DebugCmdAdmin,	"admin <arg1> <arg2>     		- 系统管理员权限 \r\n"}
+{"admin",ADMIN_PASSWORD_LEN,DebugCmdAdmin,			"admin <arg1> <arg2>            - 系统管理员权限 \r\n"}
 };
 
 cmd_analyze_struct cmd_analyze;
@@ -295,12 +296,22 @@ void DebugCmdUltprintf(int32_t argc,void * cmd_arg)
      {
         AppPrintf("无参数\n");
      }
-     else
+     else if(argc == 1)
      {
-        for(i=0;i<argc;i++)
-        {
-            AppPrintf("第%d个参数:%d\n",i+1,arg[i]);
-        }
+		 if(arg[0]<=ULTRASONIC_NUM && arg[0]>0)
+		 {
+			KS103_Read_Distance(arg[0]-1,&ultrasonic_sensor[arg[0]-1].distance);
+			AppPrintf("[ INFO ] ULT %d Addr 0x%0x Distance %d cm\r\n",arg[0],ultrasonic_sensor[arg[0]-1].addr_7bit,ultrasonic_sensor[arg[0]-1].distance);
+		 }
+		 else
+		 {
+			for(i=0;i<ULTRASONIC_NUM;i++)
+			 {
+				KS103_Read_Distance(i,&ultrasonic_sensor[i].distance);
+				AppPrintf("[ INFO ] ULT %d Addr 0x%0x Distance %d cm\r\n",i+1,ultrasonic_sensor[i].addr_7bit,ultrasonic_sensor[i].distance);
+			 }
+		 
+		 }
      }
 
 }
@@ -313,12 +324,9 @@ void DebugCmdUltmsg(int32_t argc,void * cmd_arg)
      {
         AppPrintf("无参数\n");
      }
-     else
+     else if(argc ==1)
      {
-        for(i=0;i<argc;i++)
-        {
-            AppPrintf("第%d个参数:%d\n",i+1,arg[i]);
-        }
+		PrintfKS103Msg(arg[0]);
      }
 
 }
@@ -380,6 +388,7 @@ void DebugCmdks103chaaddr(int32_t argc,void * cmd_arg)
 {
     uint32_t i;
     int32_t  *arg=(int32_t *)cmd_arg;
+	uint8_t year,week;
     
      if(argc==0)
      {
@@ -387,10 +396,23 @@ void DebugCmdks103chaaddr(int32_t argc,void * cmd_arg)
      }
      else
      {
-        for(i=0;i<argc;i++)
-        {
-            AppPrintf("第%d个参数:%d\n",i+1,arg[i]);
-        }
+		 if(argc == 2)
+		 {
+			 AppPrintf("KS103旧地址:0x%x KS103新地址:0x%x 正在设置... \n",arg[0],arg[1]);
+			if(KS103_AddressLegalJudgment(arg[0])>0 && KS103_AddressLegalJudgment(arg[1])>0)
+			{
+				Change_i2c_addr_KS103(arg[0], arg[1]);
+				HAL_Delay(100);
+				if((KS103IIC_ReadOneByte(arg[1], 0x00) == KS103_DEVICE_YEAR_DEFAULT) && (KS103IIC_ReadOneByte(arg[1], 0x01) == KS103_DEVICE_WEEK_DEFAULT))
+					AppPrintf("[ OK ] KS103 新地址(0x%x)写入成功!!!\r\n",arg[1]);
+				else
+					AppPrintf("[ WARNING ] KS103 新地址(0x%x)写入失败!!!\r\n",arg[1]);
+			}
+			else
+				AppPrintf("[ ERROR ] KS103 地址非法!!!\r\n");
+		 }
+       
+		 
      }
 
 }
@@ -497,13 +519,13 @@ void Show_SYS_INFO_Task(void)
 {
 	uint8_t pcWriteBuffer[400];
 	AppPrintf("============= START SYSTEM TASK INFO TASK ==========\r\n"); 
-	AppPrintf("\r\ntask_name\t\tstate\tprior\tstack\tId\r\n");
+	AppPrintf("\r\ntask_name\tstate\tprior\tstack\tId\r\n");
 	vTaskList((char *)&pcWriteBuffer);
 	AppPrintf("%s\r\n", pcWriteBuffer);
 
-	AppPrintf("\r\ntask_name\t\tcnt(10us)\tusage_pec\r\n");
+	AppPrintf("\r\ntask_name\tcnt(10us)\tusage_pec\r\n");
 	vTaskGetRunTimeStats((char *)&pcWriteBuffer);
-	AppPrintf("pcWriteBuffer len %d\r\n",strlen((char*)pcWriteBuffer));
+//	AppPrintf("pcWriteBuffer len %d\r\n",strlen((char*)pcWriteBuffer));
 	AppPrintf("%s\r\n", pcWriteBuffer);
 	AppPrintf("============= END SYSTEM TASK INFO TASK ============\r\n"); 
 

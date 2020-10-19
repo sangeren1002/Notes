@@ -27,6 +27,8 @@ extern "C"{
 #define CMD_BUF_LEN 60         //命令缓存的最大长度
 #define ADMIN_PASSWORD "666666"
 #define ADMIN_PASSWORD_LEN 6
+
+
 typedef struct {
     char rec_buf[CMD_BUF_LEN];            //接收命令缓冲区
     char processed_buf[CMD_BUF_LEN];      //存储加工后的命令(去除控制字符)

@@ -1,6 +1,6 @@
 Configuration	UART_CMD_TEST
 STM32CubeMX 	4.27.0
-Date	09/23/2020
+Date	10/19/2020
 MCU	STM32F407VGTx
 
 
@@ -36,7 +36,7 @@ SOFTWARE PROJECT
 
 Project Settings : 
 Project Name : UART_CMD_TEST
-Project Folder : C:\Users\lenovo\Desktop\test\UART_CMD_TEST
+Project Folder : F:\github\Notes\FreeRTOS\code\UART_CMD_TEST
 Toolchain / IDE : MDK-ARM V5
 Firmware Package Name and Version : STM32Cube FW_F4 V1.21.0
 

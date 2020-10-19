@@ -23,8 +23,14 @@ extern "C"{
 #include "cmsis_os.h"
 #include "sys_define.h"
 
-#define LEDRUN_FRE  2   //系统运行指示灯频率 Hz
+#define LEDRUN_FRE  1   //系统运行指示灯频率 Hz
 #define LEDRUN_CYCLE    1000/(LEDRUN_FRE*2)
+typedef struct{
+	uint32_t UID[3];
+	uint8_t chip_id[12];
+	uint16_t flashsize;
+	uint16_t package;
+}CHIP_INFO;
 
 extern osThreadId defaultTaskHandle;
 extern osThreadId DebugCmdTaskHandle;

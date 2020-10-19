@@ -16,4 +16,5 @@ _book
 *.pdf
 
 FreeRTOS/code/UART_CMD_TEST/MDK-ARM/UART_CMD_TEST/
-FreeRTOS/code/UART_CMD_TEST/Si/UART_CMD_TEST.si4project/
+FreeRTOS/code/UART_CMD_TEST/Si/
+
